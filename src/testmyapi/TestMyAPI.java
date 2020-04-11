@@ -25,16 +25,31 @@ public class TestMyAPI {
         // TODO code application logic here
         TestMyAPI api = new TestMyAPI();
         
+        //query test
         /*JSONObject jsonObject = api.queryUser();
-        System.out.println("The number of users：" + jsonObject.getJSONArray("records"));*/
-        /*JSONObject jsonObject = api.queryOneUser(2);
+        System.out.println("The number of users：" + jsonObject.getJSONArray("records").length());*/
+        
+        //queryOne test
+        /*JSONObject jsonObject = api.queryOneUser(3);
         System.out.println(jsonObject);*/
-        HashMap map = new HashMap();
+        
+        //inser test
+        /*HashMap map = new HashMap();
+        map.put("name", "這試");
+        map.put("phone", "po");
+        JSONObject jsonObject = new JSONObject(map);
+        System.out.println(api.insertUser(jsonObject));*/
+        
+        //update test
+        /*HashMap map = new HashMap();
+        map.put("id", 11);
         map.put("name", "這是測試");
         map.put("phone", "123test123");
         JSONObject jsonObject = new JSONObject(map);
-        System.out.println(api.insertUser(jsonObject));
+        System.out.println(api.updateUser(jsonObject));*/
         
+        //delete test
+        /*System.out.println(api.deleteUser(11));*/
         
         
     }
@@ -88,6 +103,19 @@ public class TestMyAPI {
     }
     public boolean insertUser(JSONObject jsonObject){
         String url = apiUrl + "/create.php";
+        String str = httpRequest(url, "POST", jsonObject.toString());
+        JSONObject response = new JSONObject(str);
+        return (boolean)response.get("success");
+    }
+    public boolean updateUser(JSONObject jsonObject){
+        String url = apiUrl + "/update.php";
+        String str = httpRequest(url, "POST", jsonObject.toString());
+        JSONObject response = new JSONObject(str);
+        return (boolean)response.get("success");
+    }
+    public boolean deleteUser(int id){
+        JSONObject jsonObject = new JSONObject("{\"id\":" + id + "}");
+        String url = apiUrl + "/delete.php";
         String str = httpRequest(url, "POST", jsonObject.toString());
         JSONObject response = new JSONObject(str);
         return (boolean)response.get("success");
