@@ -14,18 +14,20 @@ import java.io.*;
  * @author wrxue
  */
 public class TestMyAPI {
-
+    String apiUrl;
     /**
      * @param args the command line arguments
      */
+    public TestMyAPI(){
+        apiUrl = "http://localhost/api/user";
+    }
     public static void main(String[] args) throws MalformedURLException, IOException {
         // TODO code application logic here
-        JSONObject jsonObject = new JSONObject();
+        TestMyAPI api = new TestMyAPI();
+        JSONObject jsonObject = api.queryUser();
+        System.out.println("The number of users：" + jsonObject.getJSONArray("records"));
         
-        String s=httpRequest("http://localhost/api/product/read.php","GET", null);
-        System.out.println(s);
-        JSONObject ob = new JSONObject(s);
-        System.out.println("The number of users：" + ob.getJSONArray("records").length());
+        
     }
 
     public static String httpRequest(String requestUrl,String requestMethod,String outputStr){
@@ -63,4 +65,9 @@ public class TestMyAPI {
         return buffer.toString();
     }
     
+    public JSONObject queryUser(){
+        String str = httpRequest(apiUrl + "/read.php","GET", null);
+        JSONObject jsonObject = new JSONObject(str);
+        return jsonObject;
+    }
 }
