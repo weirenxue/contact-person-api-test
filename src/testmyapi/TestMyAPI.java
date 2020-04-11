@@ -24,13 +24,22 @@ public class TestMyAPI {
     public static void main(String[] args) throws MalformedURLException, IOException {
         // TODO code application logic here
         TestMyAPI api = new TestMyAPI();
-        JSONObject jsonObject = api.queryUser();
-        System.out.println("The number of users：" + jsonObject.getJSONArray("records"));
+        
+        /*JSONObject jsonObject = api.queryUser();
+        System.out.println("The number of users：" + jsonObject.getJSONArray("records"));*/
+        /*JSONObject jsonObject = api.queryOneUser(2);
+        System.out.println(jsonObject);*/
+        HashMap map = new HashMap();
+        map.put("name", "這是測試");
+        map.put("phone", "123test123");
+        JSONObject jsonObject = new JSONObject(map);
+        System.out.println(api.insertUser(jsonObject));
+        
         
         
     }
 
-    public static String httpRequest(String requestUrl,String requestMethod,String outputStr){
+    public static String httpRequest(String requestUrl, String requestMethod, String outputStr){
         StringBuffer buffer=null;
         try{
             //根據requestUrl創建一個HttpURLConnection物件，此時只是創物件，還沒有真的連線。
@@ -66,8 +75,21 @@ public class TestMyAPI {
     }
     
     public JSONObject queryUser(){
-        String str = httpRequest(apiUrl + "/read.php","GET", null);
+        String url = apiUrl + "/read.php";
+        String str = httpRequest(url, "GET", null);
         JSONObject jsonObject = new JSONObject(str);
         return jsonObject;
+    }
+    public JSONObject queryOneUser(int id){
+        String url = apiUrl + "/read_one.php?id=" + id;
+        String str = httpRequest(url, "GET", null);
+        JSONObject jsonObject = new JSONObject(str);
+        return jsonObject;
+    }
+    public boolean insertUser(JSONObject jsonObject){
+        String url = apiUrl + "/create.php";
+        String str = httpRequest(url, "POST", jsonObject.toString());
+        JSONObject response = new JSONObject(str);
+        return (boolean)response.get("success");
     }
 }
