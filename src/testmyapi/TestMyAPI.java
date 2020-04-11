@@ -15,11 +15,21 @@ import java.io.*;
  */
 public class TestMyAPI {
     String apiUrl;
+    String createPhp;
+    String readPhp;
+    String updatePhp;
+    String deletePhp;
+    String readOnePhp;
     /**
      * @param args the command line arguments
      */
     public TestMyAPI(){
-        apiUrl = "http://localhost/api/user";
+        apiUrl = "http://localhost/api/user/";
+        createPhp = "create.php";
+        readPhp = "read.php";
+        updatePhp = "update.php";
+        deletePhp = "delete.php";
+        readOnePhp = "read_one.php";
     }
     public static void main(String[] args) throws MalformedURLException, IOException {
         // TODO code application logic here
@@ -27,29 +37,29 @@ public class TestMyAPI {
         
         //query test
         /*JSONObject jsonObject = api.queryUser();
-        System.out.println("The number of users：" + jsonObject.getJSONArray("records").length());*/
+        System.out.println("The number of users：" + jsonObject.getJSONArray("records").length());//*/
         
         //queryOne test
-        /*JSONObject jsonObject = api.queryOneUser(3);
-        System.out.println(jsonObject);*/
+        /*JSONObject jsonObject = api.queryOneUser(9);
+        System.out.println(jsonObject);//*/
         
         //inser test
         /*HashMap map = new HashMap();
         map.put("name", "這試");
         map.put("phone", "po");
         JSONObject jsonObject = new JSONObject(map);
-        System.out.println(api.insertUser(jsonObject));*/
+        System.out.println(api.insertUser(jsonObject));//*/
         
         //update test
         /*HashMap map = new HashMap();
-        map.put("id", 11);
+        map.put("id", 12);
         map.put("name", "這是測試");
         map.put("phone", "123test123");
         JSONObject jsonObject = new JSONObject(map);
-        System.out.println(api.updateUser(jsonObject));*/
+        System.out.println(api.updateUser(jsonObject));//*/
         
         //delete test
-        /*System.out.println(api.deleteUser(11));*/
+        /*System.out.println(api.deleteUser(8));//*/
         
         
     }
@@ -90,32 +100,32 @@ public class TestMyAPI {
     }
     
     public JSONObject queryUser(){
-        String url = apiUrl + "/read.php";
+        String url = apiUrl + readPhp;
         String str = httpRequest(url, "GET", null);
         JSONObject jsonObject = new JSONObject(str);
         return jsonObject;
     }
     public JSONObject queryOneUser(int id){
-        String url = apiUrl + "/read_one.php?id=" + id;
+        String url = apiUrl + readOnePhp + "?id=" + id;
         String str = httpRequest(url, "GET", null);
         JSONObject jsonObject = new JSONObject(str);
         return jsonObject;
     }
     public boolean insertUser(JSONObject jsonObject){
-        String url = apiUrl + "/create.php";
+        String url = apiUrl + createPhp;
         String str = httpRequest(url, "POST", jsonObject.toString());
         JSONObject response = new JSONObject(str);
         return (boolean)response.get("success");
     }
     public boolean updateUser(JSONObject jsonObject){
-        String url = apiUrl + "/update.php";
+        String url = apiUrl + updatePhp;
         String str = httpRequest(url, "POST", jsonObject.toString());
         JSONObject response = new JSONObject(str);
         return (boolean)response.get("success");
     }
     public boolean deleteUser(int id){
         JSONObject jsonObject = new JSONObject("{\"id\":" + id + "}");
-        String url = apiUrl + "/delete.php";
+        String url = apiUrl + deletePhp;
         String str = httpRequest(url, "POST", jsonObject.toString());
         JSONObject response = new JSONObject(str);
         return (boolean)response.get("success");
