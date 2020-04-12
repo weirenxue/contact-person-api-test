@@ -36,8 +36,8 @@ public class TestMyAPI {
         TestMyAPI api = new TestMyAPI();
         
         //query test
-        /*JSONObject jsonObject = api.queryUser();
-        System.out.println("The number of users：" + jsonObject.getJSONArray("records").length());//*/
+        JSONObject jsonObject = api.queryUser();
+        System.out.println("The number of users：" + jsonObject.getJSONArray("records").getJSONObject(0).get("name"));//*/
         
         //queryOne test
         /*JSONObject jsonObject = api.queryOneUser(9);
