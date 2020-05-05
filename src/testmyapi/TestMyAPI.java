@@ -95,6 +95,7 @@ public class TestMyAPI {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return "";
         }
         return buffer.toString();
     }
